@@ -1,0 +1,18 @@
+Metadata-Version: 2.1
+Name: kucoin-python
+Version: 1.0.11
+Summary: kucoin-api-sdk
+Home-page: https://github.com/Kucoin/kucoin-python-sdk
+Author: Arthur
+Author-email: arthur.zhang@kucoin.com
+License: MIT
+Platform: UNKNOWN
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+License-File: LICENSE
+Requires-Dist: requests
+Requires-Dist: websockets
+
+UNKNOWN
+
