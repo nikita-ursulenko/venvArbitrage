@@ -3,9 +3,12 @@ import json
 import aiohttp
 import ccxt.async_support as ccxt
 from web3 import Web3, HTTPProvider
-import aiohttp
-import asyncio
 import subprocess
+import time
+import requests
+import base64
+import hashlib
+import hmac
 
 #Gateio -PRICE, FILTER
 async def gateio_price():
@@ -340,14 +343,6 @@ async def calculate_spread():
 
 
 #=====================================
-import json
-import ccxt.async_support as ccxt
-import asyncio
-import time
-import requests
-import base64
-import hashlib
-import hmac
 
 okex = ccxt.okex({
     'apiKey': '8d7da0e1-33ac-42df-a10b-a33d213fc04c',
