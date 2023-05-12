@@ -93,7 +93,7 @@ def calculate_profit(exchange1_id, exchange2_id, symbol, amount_usdt, orderbook_
             result +=(f'https://www.huobi.com/en-us/exchange/{symbol}_usdt\n')
         if exchange1_id == "kucoin":
             #symbol without /USDT
-            result +=(f'https://www.kucoin.com/ru/assets/coin/{symbol}\n')
+            result +=(f'https://www.kucoin.com/ru/assets/withdraw/{symbol}\n')
             result +=(f'https://www.kucoin.com/ru/trade/{symbol}-USDT\n')
         if exchange1_id == "okex":
             #symbol without /USDT
@@ -119,7 +119,7 @@ def calculate_profit(exchange1_id, exchange2_id, symbol, amount_usdt, orderbook_
             result +=(f'https://www.huobi.com/en-us/exchange/{symbol}_usdt\n')
         if exchange2_id == "kucoin":
             #symbol without /USDT
-            result +=(f'https://www.kucoin.com/ru/assets/withdraw/{symbol}\n')
+            result +=(f'https://www.kucoin.com/ru/assets/coin/{symbol}\n')
             result +=(f'https://www.kucoin.com/ru/trade/{symbol}-USDT\n')
         if exchange2_id == "okex":
             #symbol without /USDT

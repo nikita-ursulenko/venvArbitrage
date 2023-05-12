@@ -553,9 +553,6 @@ def update_fees(okex_fees, gateio_fees, huobi_fees, mexc_fees):
         del data[key]
     return data
 
-
-
-
 def get_fee_kucoin(currency, value):
     # ваш публичный и секретный ключи KuCoin
     api_key = '644d099df55bbf0001db4458'
