@@ -3,8 +3,6 @@ import json
 import aiohttp
 import ccxt.async_support as ccxt
 from web3 import Web3, HTTPProvider
-import aiohttp
-import asyncio
 import subprocess
 
 #Gateio -PRICE, FILTER
