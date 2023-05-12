@@ -21,6 +21,10 @@ def calculate_profit(exchange1_id, exchange2_id, symbol, amount_usdt, orderbook_
     :return: строка с результатом расчета
     """
     symbol +="/USDT"
+
+    if exchange1_id == "kucoin" or exchange2_id == "kucoin":
+        orderbook_limit = 20
+
     # Создание экземпляров бирж
     exchange1 = getattr(ccxt, exchange1_id)()
     exchange2 = getattr(ccxt, exchange2_id)()
@@ -173,7 +177,7 @@ def process_item(key, value):
         ask_name = "huobi"
 
     if ask_name and bid_name:
-        result = calculate_profit(ask_name, bid_name, symbol, 95, 20)
+        result = calculate_profit(ask_name, bid_name, symbol, 95, 10)
         return result
 
 def process_data(data):
