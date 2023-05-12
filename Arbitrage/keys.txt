@@ -1,0 +1,26 @@
+exchange = ccxt.kucoin({
+    'apiKey': '644d099df55bbf0001db4458',
+    'secret': '35aa3110-d54d-4e06-9c70-bd4d5f6f96f1',
+    'password': 'Bratuseni8!'
+})
+exchange = ccxt.okex({
+    'apiKey': '8d7da0e1-33ac-42df-a10b-a33d213fc04c',
+    'secret': 'E0B99AB061E85641E9751E0814EE63CC',
+    'password': 'Bratuseni8!'
+})
+exchange = ccxt.gateio({
+    'apiKey': 'ade074c8b80a28d3c39c00639dc86d68',
+    'secret': '379da1d9c3a53cd9cd552cd391bf59ff30070cd6ee902e0a0274d3d692793080',
+})
+exchange = ccxt.huobi({
+    'apiKey': 'dc91a823-e993b76d-vqgdf4gsga-257cb',
+    'secret': 'e5b44080-0710e5ea-bfc49bb3-42730',
+})
+exchange = ccxt.bybit({
+    'apiKey': 'rzWcyTEjxQoqrozgNd',
+    'secret': 'gw7Yt4QVLMMg2qSuQoZUUNf5usvJDvJyGpzV',
+})
+exchange = ccxt.mexc({
+    'apiKey': 'mx0vglNTjPgS7EnOBI',
+    'secret': '2f13ad3b58c741ae9dba48531b853db3',
+})
