@@ -31,7 +31,7 @@ def calculate_profit(exchange1_id, exchange2_id, symbol, amount_usdt, orderbook_
 
     # Запрос на получение текущего стакана ордеров на первой бирже
     orderbook_exchange1 = exchange1.fetch_order_book(symbol, orderbook_limit)
-    asks_exchange1 = orderbook_exchange1['asks']
+    asks_exchange1 = orderbook_exchange1['bids']
 
    # Оценка количества монет, которые можно купить на первой бирже
     coins_to_buy = 0
@@ -58,13 +58,13 @@ def calculate_profit(exchange1_id, exchange2_id, symbol, amount_usdt, orderbook_
              
     # Запрос на получение текущей цены продажи монет на второй бирже
     ticker_exchange2 = exchange2.fetch_ticker(symbol)
-    bid_price_exchange2 = ticker_exchange2['bid']
+    bid_price_exchange2 = ticker_exchange2['ask']
 
     
 
      # Запрос на получение текущего стакана ордеров на второй бирже
     orderbook_exchange2 = exchange2.fetch_order_book(symbol, orderbook_limit)
-    bids_exchange2 = orderbook_exchange2['bids']
+    bids_exchange2 = orderbook_exchange2['asks']
 
     # Оценка количества монет, которые можно продать на второй бирже
     coins_to_sell = 0
@@ -177,7 +177,7 @@ def process_item(key, value):
         ask_name = "huobi"
 
     if ask_name and bid_name:
-        result = calculate_profit(ask_name, bid_name, symbol, 95, 10)
+        result = calculate_profit(ask_name, bid_name, symbol, 95, 5)
         return result
 
 def process_data(data):
