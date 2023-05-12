@@ -9,7 +9,7 @@ import requests
 import base64
 import hashlib
 import hmac
-
+import os
 #Gateio -PRICE, FILTER
 async def gateio_price():
 #+Чистый код без CCXT
@@ -633,6 +633,16 @@ def delete_keys(data):
 #================================
 
 async def main():
+    # Задайте имена директорий
+    dir_names = ["fees", "price", "spread"]
+
+# Создайте каждую директорию, если её ещё нет
+    for dir_name in dir_names:
+        if not os.path.exists(dir_name):
+            os.mkdir(dir_name)
+            print("Директория", dir_name, "создана.")
+        else:
+            print("Директория", dir_name, "уже существует.")
     # Запускаем обе функции параллельно с помощью функции asyncio.gather
     await asyncio.gather(okex_price(), gateio_price(), kucoin_price(), bybit_price(), huobi_price(), mexc_price())
     filenames = ['price/bybit_price.json', 'price/gateio_price.json', 'price/huobi_price.json', 'price/kucoin_price.json', 'price/mexc_price.json', 'price/okex_price.json']
