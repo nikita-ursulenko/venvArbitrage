@@ -361,6 +361,7 @@ def update_fees(okex_fees, gateio_fees, huobi_fees, mexc_fees):
     keys_to_delete = []
     for key, value in data.items():
         # OKEX ------------------------------
+        # ФИЛЬТР ДЕПОЗИТ И ВЫВОД
         #ASK в $ 
         if "OKEX" in value["ask_name"]:
             symbol = value["symbol"]
@@ -390,6 +391,7 @@ def update_fees(okex_fees, gateio_fees, huobi_fees, mexc_fees):
 
             
         # GATEIO ------------------------------
+        # НЕТУ ФИЛЬТРА
         #ASK в $
         if "Gateio" in value["ask_name"]:
             symbol = value["symbol"]
@@ -426,6 +428,7 @@ def update_fees(okex_fees, gateio_fees, huobi_fees, mexc_fees):
             else: value["bid_fee"] = None
             
         # HUOBI ------------------------------
+        # ФИЛЬТР ДЕПОЗИТ И ВЫВОД
         #ASK в $
         if "Huobi" in value["ask_name"]:
             symbol = value["symbol"]
@@ -479,6 +482,7 @@ def update_fees(okex_fees, gateio_fees, huobi_fees, mexc_fees):
                     value["bid_fee"] = None
 
         # MEXC ------------------------------
+        # ФИЛЬТР ДЕПОЗИТ И ВЫВОД
         #ASK в $
         if "MEXC" in value["ask_name"]:
             symbol = value["symbol"]
@@ -517,6 +521,7 @@ def update_fees(okex_fees, gateio_fees, huobi_fees, mexc_fees):
                     value["bid_fee"] = None
 
         # KuCoin ------------------------------
+        # НЕТУ ФИЛЬТРА
         #ASK в $
         if "KuCoin" in value["ask_name"]:
             symbol = value["symbol"]
@@ -537,10 +542,7 @@ def update_fees(okex_fees, gateio_fees, huobi_fees, mexc_fees):
             value["bid_fee"] = withdrawal_limits 
             time.sleep(0.6)
     
-    #почистить массив от одинаковых значений
-
-    
-    
+    #почистить массив от одинаковых ключей 
     for key in list(set(keys_to_delete)):
         del data[key]
     return data
