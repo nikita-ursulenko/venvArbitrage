@@ -33,25 +33,25 @@ async def gateio_price():
                 #Начинаем выводить только те монеты которые доступны для всех операций 
                 for coin in coins:
                     for chain in coin_chains:
-                        #Если есть в списке далее фильтр на доступность 1 вывод 2 пополнение 3 торговлю
-                        if chain["currency"] == coin and not chain["delisted"] and not chain["withdraw_disabled"] and not chain["withdraw_delayed"] and not chain["deposit_disabled"] and not chain["trade_disabled"]:
+                        #Если есть в списке далее фильтр на доступность торговлю
+                        if chain["currency"] == coin and not chain["delisted"] and not chain["trade_disabled"]:
                                 # Добавляем найденое (Сеть перевода и вывод)
                             coin_list_gateio.append(chain["currency"])
 
-                    # Обработка цен на монеты
-                coin_dict_gateio_price = {}
-                with open("price/gateio_price.json", "w") as f:
-                    for coin in coin_list_gateio:
-                        for pair in usdt_pairs:
-                            if pair["currency_pair"] == coin+"_USDT":
-                                coin_dict_gateio_price[coin+"/USDT"] = {
-                                    "last": float(pair["last"]),
-                                    # Продают
-                                    "ask": float(pair["lowest_ask"]),
-                                    # Покупают
-                                    "bid": float(pair["highest_bid"])
-                                }
-                    json.dump(coin_dict_gateio_price, f)
+                # Обработка цен на монеты
+                coin_dict_gateio_price = {} # создание пустого словаря для хранения информации о ценах 
+                with open("price/gateio_price.json", "w") as f: # открытие файла для записи в формате json
+                    for coin in coin_list_gateio: # итерация по списку монет, полученных от Gate.io
+                        for pair in usdt_pairs: # итерация по списку валютных пар, связанных с USDT
+                            if pair["currency_pair"] == coin+"_USDT": # проверка соответствия названия монеты валютной паре
+                                if pair["last"] and pair["lowest_ask"] and pair["highest_bid"]: # проверка наличия цен на продажу и покупку
+                                    coin_dict_gateio_price[coin+"/USDT"] = {
+                                        "last": float(pair["last"]), # добавление последней цены в словарь
+                                        "ask": float(pair["lowest_ask"]), # добавление лучшей цены продажи в словарь
+                                        "bid": float(pair["highest_bid"]) # добавление лучшей цены покупки в словарь
+                                    }
+                    json.dump(coin_dict_gateio_price, f) # запись словаря в файл в формате json
+                
 
 async def okex_price():
     # Создаем объект OKEx
@@ -358,6 +358,8 @@ def update_fees(okex_fees, gateio_fees, huobi_fees, mexc_fees):
     with open("spread/spreads.json", "r") as f:
         data = json.load(f)
     
+    response = requests.get('https://api.gateio.ws/api/v4/spot/currencies')
+
     keys_to_delete = []
     for key, value in data.items():
         # OKEX ------------------------------
@@ -395,12 +397,14 @@ def update_fees(okex_fees, gateio_fees, huobi_fees, mexc_fees):
         #ASK в $
         if "Gateio" in value["ask_name"]:
             symbol = value["symbol"]
+            currencies = response.json()
+            filtered_currencies = [c for c in currencies if c['currency'] == value["symbol"]]
             fees = gateio_fees.get(symbol)
             info = fees["info"]
-            #Валидноть присутсвует в gateio_price(), выводим только актуальные монеты 
+        
             #FILTER
             #Если дневной лимит больше 0 то выполняем дальше
-            if float(info["withdraw_day_limit"]) > 0:
+            if filtered_currencies[0]['withdraw_disabled'] == False:
                 #Обьявляем переменную 
                 networks = fees["networks"]
                 #Перебираем ключи переменной
@@ -418,11 +422,13 @@ def update_fees(okex_fees, gateio_fees, huobi_fees, mexc_fees):
             #Значит не можем вывести
             else: value["ask_fee"] = None
         if "Gateio" in value["bid_name"]:
+            currencies = response.json()
             symbol = value["symbol"]
             fees = gateio_fees.get(symbol)
+            filtered_currencies = [c for c in currencies if c['currency'] == value["symbol"]]
             if fees:
                 info = fees["info"]
-                if float(info["withdraw_day_limit"]) > 0:
+                if filtered_currencies[0]['deposit_disabled'] == False:
                     networks = fees["networks"]
                     value["bid_fee"] = list(networks.keys())
             else: value["bid_fee"] = None
