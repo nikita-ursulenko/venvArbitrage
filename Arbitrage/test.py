@@ -21,17 +21,13 @@ def calculate_profit(exchange1_id, exchange2_id, symbol, amount_usdt, orderbook_
     :return: строка с результатом расчета
     """
     symbol +="/USDT"
-
-    if exchange1_id == "kucoin" or exchange2_id == "kucoin":
-        orderbook_limit = 20
-
     # Создание экземпляров бирж
     exchange1 = getattr(ccxt, exchange1_id)()
     exchange2 = getattr(ccxt, exchange2_id)()
 
     # Запрос на получение текущего стакана ордеров на первой бирже
     orderbook_exchange1 = exchange1.fetch_order_book(symbol, orderbook_limit)
-    asks_exchange1 = orderbook_exchange1['bids']
+    asks_exchange1 = orderbook_exchange1['asks']
 
    # Оценка количества монет, которые можно купить на первой бирже
     coins_to_buy = 0
@@ -58,13 +54,13 @@ def calculate_profit(exchange1_id, exchange2_id, symbol, amount_usdt, orderbook_
              
     # Запрос на получение текущей цены продажи монет на второй бирже
     ticker_exchange2 = exchange2.fetch_ticker(symbol)
-    bid_price_exchange2 = ticker_exchange2['ask']
+    bid_price_exchange2 = ticker_exchange2['bid']
 
     
 
      # Запрос на получение текущего стакана ордеров на второй бирже
     orderbook_exchange2 = exchange2.fetch_order_book(symbol, orderbook_limit)
-    bids_exchange2 = orderbook_exchange2['asks']
+    bids_exchange2 = orderbook_exchange2['bids']
 
     # Оценка количества монет, которые можно продать на второй бирже
     coins_to_sell = 0
@@ -93,8 +89,8 @@ def calculate_profit(exchange1_id, exchange2_id, symbol, amount_usdt, orderbook_
             result +=(f'https://www.gate.io/ru/trade/{symbol}_USDT\n')
         if exchange1_id == "huobi":
             #symbol without /USDT
-            result +=(f'https://www.huobi.com/en-us/finance/withdraw/{symbol}\n'.lower())
-            result +=(f'https://www.huobi.com/en-us/exchange/{symbol}_usdt\n'.lower())
+            result +=(f'https://www.huobi.com/en-us/finance/withdraw/{symbol}\n')
+            result +=(f'https://www.huobi.com/en-us/exchange/{symbol}_usdt\n')
         if exchange1_id == "kucoin":
             #symbol without /USDT
             result +=(f'https://www.kucoin.com/ru/assets/withdraw/{symbol}\n')
@@ -119,8 +115,8 @@ def calculate_profit(exchange1_id, exchange2_id, symbol, amount_usdt, orderbook_
             result +=(f'https://www.gate.io/ru/trade/{symbol}_USDT\n')
         if exchange2_id == "huobi":
             #symbol without /USDT
-            result +=(f'https://www.huobi.com/en-us/finance/deposit/{symbol}\n'.lower())
-            result +=(f'https://www.huobi.com/en-us/exchange/{symbol}_usdt\n'.lower())
+            result +=(f'https://www.huobi.com/en-us/finance/deposit/{symbol}\n')
+            result +=(f'https://www.huobi.com/en-us/exchange/{symbol}_usdt\n')
         if exchange2_id == "kucoin":
             #symbol without /USDT
             result +=(f'https://www.kucoin.com/ru/assets/coin/{symbol}\n')
@@ -177,7 +173,7 @@ def process_item(key, value):
         ask_name = "huobi"
 
     if ask_name and bid_name:
-        result = calculate_profit(ask_name, bid_name, symbol, 95, 5)
+        result = calculate_profit(ask_name, bid_name, symbol, 100, 20)
         return result
 
 def process_data(data):
