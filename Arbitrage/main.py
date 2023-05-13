@@ -217,43 +217,39 @@ async def mexc_price():
         
 #Вычисляем спред------------------------
 
-async def find_min_ask(filenames):
-    key_values = {}
-    for filename in filenames:
-        with open(filename, 'r') as f:
-            data = json.load(f)
-            for key in data:
-                if key not in key_values:
-                    key_values[key] = {'min_ask': None, 'min_ask_file': None}
-                if 'ask' in data[key]:
-                    if data[key]['ask'] is not None:
-                        ask = data[key]['ask']
-                        if key_values[key]['min_ask'] is None or ask < key_values[key]['min_ask']:
-                            key_values[key]['min_ask'] = ask
-                            key_values[key]['min_ask_file'] = filename
+async def find_min_ask(filenames):   # Объявляем асинхронную функцию с входным параметром - списком имен файлов
+    key_values = {}   # Инициализируем пустой словарь для хранения результатов
+    for filename in filenames:   # Проходим по каждому имени файла из списка
+        with open(filename, 'r') as f:   # Открываем файл на чтение
+            data = json.load(f)   # Загружаем данные из JSON
+            for key in data:   # Проходим по каждому ключу в файле
+                if key not in key_values:   # Если ключ еще не был рассмотрен ранее
+                    key_values[key] = {'min_ask': None, 'min_ask_file': None}   # Инициализируем значения ключа пустыми значениями
+                if 'ask' in data[key]:   # Если в значении есть ключ 'ask'
+                    if data[key]['ask'] is not None:   # Если значение ask существует
+                        ask = data[key]['ask']   # Получаем его значение
+                        if key_values[key]['min_ask'] is None or ask < key_values[key]['min_ask']:   # Если это первое значение или оно меньше сохраненного минимального значения
+                            key_values[key]['min_ask'] = ask   # Сохраняем новое значение как минимальное
+                            key_values[key]['min_ask_file'] = filename   # Сохраняем имя файла, в котором было найдено минимальное значение
 
     # Найти максимальное значение "ask" для каждого ключа и файл, в котором оно было найдено
     result = {}
+    file_names = {
+        "price/bybit_price.json": "ByBit",
+        "price/okex_price.json": "OKEX",
+        "price/kucoin_price.json": "KuCoin",
+        "price/huobi_price.json": "Huobi",
+        "price/mexc_price.json": "MEXC",
+        "price/gateio_price.json": "Gateio"
+    }
     for key in key_values:
         min_ask = key_values[key]['min_ask']
         min_ask_file = key_values[key]['min_ask_file']
         # Проверить, был ли ключ найден в нескольких файлах
         num_files = sum(1 for filename in filenames if key in json.load(open(filename, 'r')))
-        if min_ask_file == "price/bybit_price.json":
-            name = "ByBit"
-        elif min_ask_file == "price/okex_price.json":
-            name = "OKEX"
-        elif min_ask_file == "price/kucoin_price.json":
-            name = "KuCoin"
-        elif min_ask_file == "price/huobi_price.json":
-            name = "Huobi"
-        elif min_ask_file == "price/mexc_price.json":
-            name = "MEXC"
-        elif min_ask_file == "price/gateio_price.json":
-            name = "Gateio"
         if min_ask is not None and num_files > 1:
             result[key] = {
-                'name': name,
+                'name': file_names[min_ask_file],
                 'ask': min_ask
             }
 
@@ -274,29 +270,24 @@ async def find_max_bid(filenames):
                         if key_values[key]['max_bid'] is None or bid > key_values[key]['max_bid']:
                             key_values[key]['max_bid'] = bid
                             key_values[key]['max_bid_file'] = filename
-
-    # Найти максимальное значение "bid" для каждого ключа и файл, в котором оно было найдено
+                        
     result = {}
+    exchange_names = {
+        "price/bybit_price.json": "ByBit",
+        "price/okex_price.json": "OKEX",
+        "price/kucoin_price.json": "KuCoin",
+        "price/huobi_price.json": "Huobi",
+        "price/mexc_price.json": "MEXC", 
+        "price/gateio_price.json": "Gateio"
+    }
     for key in key_values:
         max_bid = key_values[key]['max_bid']
         max_bid_file = key_values[key]['max_bid_file']
         # Проверить, был ли ключ найден в нескольких файлах
         num_files = sum(1 for filename in filenames if key in json.load(open(filename, 'r')))
-        if max_bid_file == "price/bybit_price.json":
-            name = "ByBit"
-        elif max_bid_file == "price/okex_price.json":
-            name = "OKEX"
-        elif max_bid_file == "price/kucoin_price.json":
-            name = "KuCoin"
-        elif max_bid_file == "price/huobi_price.json":
-            name = "Huobi"
-        elif max_bid_file == "price/mexc_price.json":
-            name = "MEXC"
-        elif max_bid_file == "price/gateio_price.json":
-            name = "Gateio"
         if max_bid is not None and num_files > 1:
             result[key] = {
-                'name': name,
+                'name': exchange_names[max_bid_file], # Replace multiple conditionals
                 'bid': max_bid
             }
 
