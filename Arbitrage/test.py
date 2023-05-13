@@ -173,7 +173,7 @@ def process_item(key, value):
         ask_name = "huobi"
 
     if ask_name and bid_name:
-        result = calculate_profit(ask_name, bid_name, symbol, 95, 20)
+        result = calculate_profit(ask_name, bid_name, symbol, 100, 20)
         return result
 
 def process_data(data):
