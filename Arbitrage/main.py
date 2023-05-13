@@ -10,6 +10,7 @@ import base64
 import hashlib
 import hmac
 import os
+from datetime import datetime
 #Gateio -PRICE, FILTER
 async def gateio_price():
 #+Чистый код без CCXT
@@ -653,7 +654,7 @@ async def main():
     okex_fees, gateio_fees, huobi_fees, mexc_fees = fees
     new_data = update_fees(okex_fees, gateio_fees, huobi_fees, mexc_fees)
     delete_keys(new_data)
-    print("Обновилось")
+    print("Обновлено: " + datetime.now().strftime("%H:%M:%S"))
     with open("test.json", "w") as f:
         json.dump(new_data, f) 
 

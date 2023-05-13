@@ -190,5 +190,3 @@ def process_data(data):
 
 # Использование функции
 process_data(data)
-
-
