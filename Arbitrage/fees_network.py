@@ -10,7 +10,7 @@ import hmac
 okex = ccxt.okex({
     'apiKey': '8d7da0e1-33ac-42df-a10b-a33d213fc04c',
     'secret': 'E0B99AB061E85641E9751E0814EE63CC',
-    'password': 'Bratuseni8!'
+    'password': ''
 })
 gateio = ccxt.gateio({
     'apiKey': 'ade074c8b80a28d3c39c00639dc86d68',
