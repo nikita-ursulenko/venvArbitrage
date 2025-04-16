@@ -193,9 +193,13 @@ def run_interface():
             window.deiconify()  # Показываем главное окно
 
     # Запускаем мониторинг main.json
-    start_monitoring(lambda time: window.after(0, lambda: update_ui_callback(time)),  # При обновлении файла вызываем update_ui_callback
-                     main_py_path="/Users/semenov/Документы/GitHub/refactorArbitrage/main.py",  # Путь к main.py
-                     json_path="data/main.json")  # Путь к main.json
+    base_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+    main_py_path = os.path.join(base_dir, "main.py")
+    json_path = os.path.join(base_dir, "data", "main.json")
+
+    start_monitoring(lambda time: window.after(0, lambda: update_ui_callback(time)),
+                     main_py_path=main_py_path,
+                     json_path=json_path)  # Путь к main.json
 
     window.mainloop()  # Запускаем основной цикл приложения
 
