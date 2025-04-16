@@ -1,0 +1,4 @@
+
+        [console_scripts]
+        rtimer = rel.tools:timerCLI
+    
