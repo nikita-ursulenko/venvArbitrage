@@ -1,5 +1,16 @@
 # Arbitrage Crypto System
 
+<div align="center">
+  <div style="display:flex; justify-content:center; gap:5px; flex-wrap:wrap; margin: 10px 0;">
+    <a href="https://www.python.org/"><img src="https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white" alt="Python"></a>
+    <a href="https://github.com/ccxt/ccxt"><img src="https://img.shields.io/badge/ccxt-000000?style=for-the-badge&logo=bitcoin&logoColor=white" alt="ccxt"></a>
+    <a href="https://docs.python.org/3/library/asyncio.html"><img src="https://img.shields.io/badge/Asyncio-00599C?style=for-the-badge&logo=python&logoColor=white" alt="Asyncio"></a>
+    <a href="https://docs.aiohttp.org/"><img src="https://img.shields.io/badge/aiohttp-2C5BB4?style=for-the-badge&logo=python&logoColor=white" alt="aiohttp"></a>
+    <a href="https://docs.python.org/3/library/tkinter.html"><img src="https://img.shields.io/badge/Tkinter-2C2D72?style=for-the-badge&logo=python&logoColor=white" alt="Tkinter"></a>
+    <a href="https://web3py.readthedocs.io/"><img src="https://img.shields.io/badge/Web3.py-F16822?style=for-the-badge&logo=ethereum&logoColor=white" alt="Web3.py"></a>
+  </div>
+</div>
+
 📈 **Описание проекта**
 
 Система автоматического поиска арбитражных возможностей между криптовалютными биржами с учётом комиссий, глубины стакана и динамического интерфейса.
